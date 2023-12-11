@@ -1,9 +1,3 @@
-provider "azurerm" {
-  features {}
-  subscription_id = ""
-  tenant_id = ""
-}
-
 # リソースグループの作成
 resource "azurerm_resource_group" "testresourcegroup" {
   name = "testresourcegroup"
