@@ -28,6 +28,7 @@ provider "azurerm" {
 }
 ```
 
+### resource
 resourceで各Azureリソースを定義する。  
 ```sample.tf
 # リソースグループの作成
@@ -50,6 +51,26 @@ resource "azurerm_subnet" "test_subnet" {
   resource_group_name = azurerm_resource_group.testresourcegroup.name
   virtual_network_name = azurerm_virtual_network.testvnet.name
   address_prefixes = [ "10.0.0.0/24" ]
+}
+```
+
+### data
+Terraform の外部で定義された情報を参照することが可能。  
+読み取り専用のリソース。
+```sample.tf
+# マネージドディスクの情報
+data "azurerm_managed_disk" "testvm_disk" {
+  name = "testvm-disk"
+  resource_group_name = azurerm_resource_group.testresourcegroup.name
+}
+```
+
+### module
+別のtfファイルの情報を参照する際に使う。  
+```sample.tf
+# VNet.tfの情報を参照
+module "vnet" {
+  source = "./vnet"
 }
 ```
 

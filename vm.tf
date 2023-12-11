@@ -1,3 +1,4 @@
+# VNet.tfの情報を参照
 module "vnet" {
   source = "./vnet"
 }
