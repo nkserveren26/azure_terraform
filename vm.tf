@@ -38,6 +38,12 @@ resource "azurerm_network_interface" "testvmnic" {
   }
 }
 
+# ネットワークインターフェースにNSGをアタッチ
+resource "azurerm_network_interface_security_group_association" "test-vm-nic-nsg-01" {
+  network_interface_id = azurerm_network_interface.testvmnic.id
+  network_security_group_id = azurerm_network_security_group.testvmnsg.id
+}
+
 # VMの作成
 resource "azurerm_virtual_machine" "testvm" {
   name = "testwin_OsDisk_1_6dd450af616046a58796240a3dac04c3"
