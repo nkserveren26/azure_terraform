@@ -13,7 +13,7 @@ resource "azurerm_network_interface" "testvmnic" {
   ip_configuration {
     name                          = "ipconfig1"
     subnet_id                     = "${azurerm_subnet.test_subnet.id}"
-    private_ip_address_allocation = "Static"
+    private_ip_address_allocation = "Static"  # Static：固定
     private_ip_address            = "10.0.0.20"
   }
 }

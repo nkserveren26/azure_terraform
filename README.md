@@ -54,6 +54,18 @@ resource "azurerm_subnet" "test_subnet" {
 }
 ```
 
+### 同じディレクトリにある他のtfファイルの値を参照する
+以下の構文で参照可能。  
+　  "${対象リソースの値}"  
+
+```sample.tf
+# マネージドディスクの情報
+data "azurerm_managed_disk" "testvm_disk" {
+  name = "testwin_OsDisk_1_6dd450af616046a58796240a3dac04c3"
+  resource_group_name = "${azurerm_resource_group.testresourcegroup.name}"
+}
+```
+
 ### data
 Terraform の外部で定義された情報を参照することが可能。  
 読み取り専用のリソース。
@@ -65,14 +77,7 @@ data "azurerm_managed_disk" "testvm_disk" {
 }
 ```
 
-### module
-別のtfファイルの情報を参照する際に使う。  
-```sample.tf
-# VNet.tfの情報を参照
-module "vnet" {
-  source = "./vnet"
-}
-```
+
 
 <br>
 
