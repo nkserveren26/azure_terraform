@@ -1,8 +1,28 @@
 # マネージドディスクの情報
 data "azurerm_managed_disk" "testvm_disk" {
   name = "testwin_OsDisk_1_6dd450af616046a58796240a3dac04c3"
-  resource_group_name = "${azurerm_resource_group.testresourcegroup.name}"
+  resource_group_name = "resourcegroup"
 }
+
+# ネットワークセキュリティグループの作成
+resource "azurerm_network_security_group" "testvmnsg" {
+  name                = "test-vm-01-nsg"
+  location            = "${azurerm_resource_group.testresourcegroup.location}"
+  resource_group_name = "${azurerm_resource_group.testresourcegroup.name}"
+  security_rule {
+    name                       = "rule-01"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "TCP"
+    source_port_range          = "*"
+    destination_port_ranges    = ["22"]
+    source_address_prefixes    = ["192.168.1.1"]
+    destination_address_prefix = "VirtualNetwork"
+  }
+  tags = {}
+}
+
 
 # ネットワークインターフェースの作成
 resource "azurerm_network_interface" "testvmnic" {
@@ -22,7 +42,7 @@ resource "azurerm_network_interface" "testvmnic" {
 resource "azurerm_virtual_machine" "testvm" {
   name = "testwin_OsDisk_1_6dd450af616046a58796240a3dac04c3"
   location = "${azurerm_resource_group.testresourcegroup.location}"
-  resource_group_name = "${azurerm_resource_group.testresourcegroup.location}"
+  resource_group_name = "${azurerm_resource_group.testresourcegroup.name}"
   network_interface_ids = [ azurerm_network_interface.testvmnic.id ]
 
   # OSディスクの情報
