@@ -1,6 +1,6 @@
 # マネージドディスクの情報
 data "azurerm_managed_disk" "testvm_disk" {
-  name = "testvm-disk"
+  name = "testwin_OsDisk_1_6dd450af616046a58796240a3dac04c3"
   resource_group_name = "${azurerm_resource_group.testresourcegroup.name}"
 }
 
@@ -20,7 +20,7 @@ resource "azurerm_network_interface" "testvmnic" {
 
 # VMの作成
 resource "azurerm_virtual_machine" "testvm" {
-  name = "testvm"
+  name = "testwin_OsDisk_1_6dd450af616046a58796240a3dac04c3"
   location = "${azurerm_resource_group.testresourcegroup.location}"
   resource_group_name = "${azurerm_resource_group.testresourcegroup.location}"
   network_interface_ids = [ azurerm_network_interface.testvmnic.id ]
