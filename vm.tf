@@ -9,6 +9,7 @@ resource "azurerm_network_interface" "testvmnic" {
   name = "testvm-nic"
   location = "${azurerm_resource_group.testresourcegroup.location}"
   resource_group_name = "${azurerm_resource_group.testresourcegroup.name}"
+  
   ip_configuration {
     name                          = "ipconfig1"
     subnet_id                     = "${azurerm_subnet.test_subnet.id}"
@@ -23,6 +24,8 @@ resource "azurerm_virtual_machine" "testvm" {
   location = "${azurerm_resource_group.testresourcegroup.location}"
   resource_group_name = "${azurerm_resource_group.testresourcegroup.location}"
   network_interface_ids = [ azurerm_network_interface.testvmnic.id ]
+
+  # OSディスクの情報
   storage_os_disk {
     name = data.azurerm_managed_disk.testvm_disk.name
     caching = "ReadWrite"
