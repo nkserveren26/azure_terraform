@@ -24,16 +24,17 @@ resource "azurerm_virtual_machine" "testvm" {
   resource_group_name = "${azurerm_resource_group.testresourcegroup.location}"
   network_interface_ids = [ azurerm_network_interface.testvmnic.id ]
   storage_os_disk {
-    name = "testvm-os-disk"
-    managed_disk_type = "Standard_LRS"
+    name = data.azurerm_managed_disk.testvm_disk.name
+    caching = "ReadWrite"
     create_option = "Attach"
     managed_disk_id = data.azurerm_managed_disk.testvm_disk.id
+    os_type = "Windows"
   }
   vm_size = "Standard_DS1_v2"
-  os_profile {
-    computer_name = "my-test-vm"
-    admin_username = "adminuser"
-    admin_password = "Password1234!"
+
+  os_profile_windows_config {
+    enable_automatic_upgrades = true  # VM Agentの自動アップデート有効化
+    provision_vm_agent = true  # VM Agentのインストール
   }
 
 }
