@@ -87,6 +87,12 @@ data "azurerm_managed_disk" "testvm_disk" {
 terraform init
 ```
 
+Azureにログイン。  
+ブラウザが立ち上がり、ログイン画面が表示するのでログインする。  
+```
+az login
+```
+
 以下コマンドを実行し、tfファイルに問題がないか確認。  
 　Successと表示されればOK
 ```
