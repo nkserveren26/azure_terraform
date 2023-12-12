@@ -15,9 +15,10 @@ resource "azurerm_network_interface" "testvmnic" {
   location = azurerm_resource_group.testresourcegroup.location
   resource_group_name = azurerm_resource_group.testresourcegroup.name
   ip_configuration {
-    name = "ipconfig1"
-    subnet_id = azurerm_subnet.test_subnet.id
+    name                          = "ipconfig1"
+    subnet_id                     = azurerm_subnet.test_subnet.id
     private_ip_address_allocation = "Static"
+    private_ip_address            = "10.0.0.20"
   }
 }
 
