@@ -1,6 +1,14 @@
-# マネージドディスクの情報
-data "azurerm_managed_disk" "testvm_disk" {
-  name = "testwin_OsDisk_1_6dd450af616046a58796240a3dac04c3"
+# マネージドディスクの名前が入った配列変数
+variable "disk_names" {
+  default = [
+    "testwin_OsDisk_1_6dd450af616046a58796240a3dac04c3", 
+    "testvm2_OsDisk_1_5941274b12d14579b644c868c66610dd"
+  ]
+}
+
+data "azurerm_managed_disk" "managed_disks" {
+  count               = length(var.disk_names)
+  name                = var.disk_names[count.index]
   resource_group_name = "resourcegroup"
 }
 
