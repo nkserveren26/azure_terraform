@@ -12,13 +12,13 @@ resource "azurerm_network_security_group" "testvmnsg" {
   security_rule {
     name                       = "rule-01"
     priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
+    direction                  = "Outbound"
+    access                     = "Deny"
+    protocol                   = "Any"
     source_port_range          = "*"
-    destination_port_ranges    = ["22"]
-    source_address_prefixes    = ["192.168.1.1"]
-    destination_address_prefix = "VirtualNetwork"
+    destination_port_ranges    = ["0-65535"]
+    source_address_prefixes    = ["*"]
+    destination_address_prefix = "Internet"
   }
   tags = {}
 }
