@@ -6,6 +6,7 @@ variable "disk_names" {
   ]
 }
 
+# マネージドディスクの情報
 data "azurerm_managed_disk" "managed_disks" {
   count               = length(var.disk_names)
   name                = var.disk_names[count.index]
