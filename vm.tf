@@ -16,7 +16,7 @@ data "azurerm_managed_disk" "managed_disks" {
 # ネットワークセキュリティグループの作成
 resource "azurerm_network_security_group" "testvmnsg" {
   count               = length(var.disk_names)
-  name                = "${data.azurerm_managed_disk.managed_disks[count.index].name}-nsg"
+  name                = "${replace(var.disk_names[count.index], "-disk", "")}-nsg"
   location            = "${azurerm_resource_group.testresourcegroup.location}"
   resource_group_name = "${azurerm_resource_group.testresourcegroup.name}"
   security_rule {
@@ -37,7 +37,7 @@ resource "azurerm_network_security_group" "testvmnsg" {
 # ネットワークインターフェースの作成
 resource "azurerm_network_interface" "testvmnics" {
   count               = length(var.disk_names)
-  name = "${data.azurerm_managed_disk.managed_disks[count.index].name}-nic"
+  name = "${replace(var.disk_names[count.index], "-disk", "")}-nic"
   location = "${azurerm_resource_group.testresourcegroup.location}"
   resource_group_name = "${azurerm_resource_group.testresourcegroup.name}"
   
@@ -53,7 +53,7 @@ resource "azurerm_network_interface" "testvmnics" {
 resource "azurerm_network_interface_security_group_association" "test-vm-nic-nsg-01" {
   count                          = length(var.disk_names)
   network_interface_id = azurerm_network_interface.testvmnics[count.index].id
-  network_security_group_id = azurerm_network_security_group.testvmnsg.id
+  network_security_group_id = azurerm_network_security_group.testvmnsg[count.index].id
 }
 
 # VMの作成
