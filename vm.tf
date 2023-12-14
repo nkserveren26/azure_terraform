@@ -57,7 +57,8 @@ resource "azurerm_network_interface_security_group_association" "test-vm-nic-nsg
 
 # VMの作成
 resource "azurerm_virtual_machine" "testvm" {
-  name = "testwin_OsDisk_1_6dd450af616046a58796240a3dac04c3"
+  count               = length(var.disk_names)
+  name = "${replace(var.disk_names[count.index], "-disk", "")}"
   location = "${azurerm_resource_group.testresourcegroup.location}"
   resource_group_name = "${azurerm_resource_group.testresourcegroup.name}"
   network_interface_ids = [ azurerm_network_interface.testvmnic.id ]
