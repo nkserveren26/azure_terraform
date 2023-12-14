@@ -77,6 +77,20 @@ data "azurerm_managed_disk" "testvm_disk" {
 }
 ```
 
+### variable
+その名の通り変数を定義する。  
+変数は実行時にコマンドラインで指定する。  
+また、Defaultで値を定義することも可能。  
+　この時、コマンドラインでの値指定は不要  
+```
+# マネージドディスクの名前が入った配列変数
+variable "disk_names" {
+  default = [
+    "testwin_OsDisk_1_6dd450af616046a58796240a3dac04c3", 
+    "testvm2_OsDisk_1_5941274b12d14579b644c868c66610dd"
+  ]
+}
+```
 
 
 <br>
