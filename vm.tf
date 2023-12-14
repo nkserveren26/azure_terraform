@@ -35,7 +35,7 @@ resource "azurerm_network_security_group" "testvmnsg" {
 
 
 # ネットワークインターフェースの作成
-resource "azurerm_network_interface" "testvmnic" {
+resource "azurerm_network_interface" "testvmnics" {
   count               = length(var.disk_names)
   name = "${data.azurerm_managed_disk.managed_disks[count.index].name}-nic"
   location = "${azurerm_resource_group.testresourcegroup.location}"
@@ -51,7 +51,8 @@ resource "azurerm_network_interface" "testvmnic" {
 
 # ネットワークインターフェースにNSGをアタッチ
 resource "azurerm_network_interface_security_group_association" "test-vm-nic-nsg-01" {
-  network_interface_id = azurerm_network_interface.testvmnic.id
+  count                          = length(var.disk_names)
+  network_interface_id = azurerm_network_interface.testvmnics[count.index].id
   network_security_group_id = azurerm_network_security_group.testvmnsg.id
 }
 
