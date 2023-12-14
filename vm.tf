@@ -15,11 +15,12 @@ data "azurerm_managed_disk" "managed_disks" {
 
 # ネットワークセキュリティグループの作成
 resource "azurerm_network_security_group" "testvmnsg" {
-  name                = "test-vm-01-nsg"
+  count               = length(var.disk_names)
+  name                = "${data.azurerm_managed_disk.managed_disks[count.index].name}-nsg"
   location            = "${azurerm_resource_group.testresourcegroup.location}"
   resource_group_name = "${azurerm_resource_group.testresourcegroup.name}"
   security_rule {
-    name                       = "rule-01"
+    name                       = "DenyInternetAccessFromVM"
     priority                   = 100
     direction                  = "Outbound"
     access                     = "Deny"
@@ -35,7 +36,8 @@ resource "azurerm_network_security_group" "testvmnsg" {
 
 # ネットワークインターフェースの作成
 resource "azurerm_network_interface" "testvmnic" {
-  name = "testvm-nic"
+  count               = length(var.disk_names)
+  name = "${data.azurerm_managed_disk.managed_disks[count.index].name}-nic"
   location = "${azurerm_resource_group.testresourcegroup.location}"
   resource_group_name = "${azurerm_resource_group.testresourcegroup.name}"
   
@@ -43,7 +45,7 @@ resource "azurerm_network_interface" "testvmnic" {
     name                          = "ipconfig1"
     subnet_id                     = "${azurerm_subnet.test_subnet.id}"
     private_ip_address_allocation = "Static"  # Static：固定
-    private_ip_address            = "10.0.0.20"
+    private_ip_address            = "10.0.0.${count.index + 10}"
   }
 }
 
